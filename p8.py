@@ -29,7 +29,7 @@ rdd_subfolders = rdd_subfolders.reduceByKey(lambda x, y : x + y)
 subfolders = rdd_subfolders.keys().collect()
 # print(subfolders)
 
-# Download of the image data
+# Download of the images data
 rdd_empty = spark.sparkContext.emptyRDD()
 structure_a = StructType([StructField('image',
                         StructType([StructField('origin', StringType(), True),
@@ -62,8 +62,8 @@ def image_process(image, max_pix):
     return image
 
 structure_b = StructType([StructField('height', IntegerType(), True),
-                        StructField('width', IntegerType(), True),
-                        StructField('data', BinaryType(), True)])
+                          StructField('width', IntegerType(), True),
+                          StructField('data', BinaryType(), True)])
 
 process = udf(lambda x: image_process(x, MAX_PIX), structure_b)
 df = df.withColumn('image_processed', process(col('image')))
